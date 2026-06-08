@@ -1,52 +1,86 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@plugin "daisyui/theme" {
+	name: "xianii";
+	default: true;
+	color-scheme: dark;
+	--color-base-100: oklch(26% 0 0);
+	--color-base-200: oklch(20% 0 0);
+	--color-base-300: oklch(37% 0 0);
+	--color-base-content: oklch(96% 0.001 286.375);
+	--color-primary: oklch(81% 0.117 11.638);
+	--color-primary-content: oklch(26% 0 0);
+	--color-secondary: oklch(82% 0.119 306.383);
+	--color-secondary-content: oklch(26% 0 0);
+	--color-accent: oklch(83% 0.128 66.29);
+	--color-accent-content: oklch(26% 0 0);
+	--color-neutral: #44403c;
+	--color-neutral-content: oklch(98% 0 0);
+	--color-info: oklch(50% 0.134 242.749);
+	--color-info-content: oklch(97% 0.013 236.62);
+	--color-success: oklch(52% 0.154 150.069);
+	--color-success-content: oklch(98% 0.031 120.757);
+	--color-warning: oklch(76% 0.188 70.08);
+	--color-warning-content: oklch(14% 0 0);
+	--color-error: oklch(63% 0.237 25.331);
+	--color-error-content: oklch(14% 0 0);
+	--radius-selector: 0.5rem;
+	--radius-field: 0.5rem;
+	--radius-box: 0.5rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.3125rem;
+	--border: 1px;
+	--depth: 1;
+	--noise: 0;
+}
+
+@plugin "daisyui/theme" {
+	name: "xianii-light";
+	color-scheme: light;
+	--color-base-100: oklch(97% 0 0);
+	--color-base-200: oklch(93% 0 0);
+	--color-base-300: oklch(87% 0 0);
+	--color-base-content: oklch(20% 0.001 286.375);
+	--color-primary: oklch(55% 0.14 11.638);
+	--color-primary-content: oklch(98% 0 0);
+	--color-secondary: oklch(55% 0.14 306.383);
+	--color-secondary-content: oklch(98% 0 0);
+	--color-accent: oklch(55% 0.15 66.29);
+	--color-accent-content: oklch(98% 0 0);
+	--color-neutral: oklch(20% 0.02 60);
+	--color-neutral-content: oklch(98% 0 0);
+	--color-info: oklch(50% 0.134 242.749);
+	--color-info-content: oklch(97% 0.013 236.62);
+	--color-success: oklch(45% 0.154 150.069);
+	--color-success-content: oklch(98% 0.031 120.757);
+	--color-warning: oklch(55% 0.188 70.08);
+	--color-warning-content: oklch(98% 0 0);
+	--color-error: oklch(55% 0.237 25.331);
+	--color-error-content: oklch(98% 0 0);
+	--radius-selector: 0.5rem;
+	--radius-field: 0.5rem;
+	--radius-box: 0.5rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.3125rem;
+	--border: 1px;
+	--depth: 1;
+	--noise: 0;
+}
+
 @theme {
-  /* ── Brand Colors ── */
-  --color-primary: oklch(0.65 0.24 275);
-  --color-primary-content: oklch(0.98 0.01 275);
+	--font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+	--font-serif: "Noto Serif", "Noto Serif SC", ui-serif, Georgia, serif;
+	--font-mono: "JetBrains Mono", "Fira Code", ui-monospace, "Cascadia Code", monospace;
 
-  --color-secondary: oklch(0.7 0.2 180);
-  --color-secondary-content: oklch(0.98 0.01 180);
+	--radius-selector: 0.5rem;
+	--radius-field: 0.5rem;
+	--radius-box: 0.5rem;
 
-  --color-accent: oklch(0.75 0.18 60);
-  --color-accent-content: oklch(0.15 0.02 60);
+	--animate-float: float 6s ease-in-out infinite;
 
-  --color-neutral: oklch(0.5 0.03 260);
-  --color-neutral-content: oklch(0.98 0.01 260);
-
-  --color-base-100: oklch(0.99 0.005 90);
-  --color-base-200: oklch(0.96 0.008 90);
-  --color-base-300: oklch(0.92 0.01 90);
-  --color-base-content: oklch(0.2 0.02 260);
-
-  --color-info: oklch(0.7 0.15 240);
-  --color-info-content: oklch(0.98 0.01 240);
-
-  --color-success: oklch(0.7 0.19 155);
-  --color-success-content: oklch(0.98 0.01 155);
-
-  --color-warning: oklch(0.8 0.16 80);
-  --color-warning-content: oklch(0.2 0.04 80);
-
-  --color-error: oklch(0.65 0.22 25);
-  --color-error-content: oklch(0.98 0.01 25);
-
-  /* ── Typography ── */
-  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-serif: "Noto Serif", "Noto Serif SC", ui-serif, Georgia, serif;
-  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, "Cascadia Code", monospace;
-
-  /* ── Border Radius ── */
-  --radius-selector: 0.5rem;
-  --radius-field: 0.375rem;
-  --radius-box: 0.75rem;
-
-  /* ── Animation ── */
-  --animate-float: float 6s ease-in-out infinite;
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
+	@keyframes float {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-10px); }
+	}
 }
