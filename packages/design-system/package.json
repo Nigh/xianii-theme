@@ -9,7 +9,8 @@
   },
   "files": [
     "theme.css",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "design-system",
@@ -17,5 +18,13 @@
     "daisyui",
     "theme"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xianii/xianii-theme.git",
+    "directory": "packages/design-system"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
