@@ -1,0 +1,21 @@
+{
+  "name": "@xianii/design-system",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Xianii Design System — Tailwind CSS v4 + daisyUI v5 theme tokens and utilities",
+  "exports": {
+    ".": "./theme.css",
+    "./theme.css": "./theme.css"
+  },
+  "files": [
+    "theme.css",
+    "README.md"
+  ],
+  "keywords": [
+    "design-system",
+    "tailwindcss",
+    "daisyui",
+    "theme"
+  ],
+  "license": "MIT"
+}

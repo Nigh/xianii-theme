@@ -1,0 +1,15 @@
+{
+  "name": "xianii-theme",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @xianii/demo-page dev",
+    "build": "pnpm --filter @xianii/demo-page build",
+    "preview": "pnpm --filter @xianii/demo-page preview"
+  },
+  "packageManager": "pnpm@11.5.2",
+  "engines": {
+    "node": ">=22"
+  }
+}

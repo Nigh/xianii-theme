@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  /* ── Brand Colors ── */
+  --color-primary: oklch(0.65 0.24 275);
+  --color-primary-content: oklch(0.98 0.01 275);
+
+  --color-secondary: oklch(0.7 0.2 180);
+  --color-secondary-content: oklch(0.98 0.01 180);
+
+  --color-accent: oklch(0.75 0.18 60);
+  --color-accent-content: oklch(0.15 0.02 60);
+
+  --color-neutral: oklch(0.5 0.03 260);
+  --color-neutral-content: oklch(0.98 0.01 260);
+
+  --color-base-100: oklch(0.99 0.005 90);
+  --color-base-200: oklch(0.96 0.008 90);
+  --color-base-300: oklch(0.92 0.01 90);
+  --color-base-content: oklch(0.2 0.02 260);
+
+  --color-info: oklch(0.7 0.15 240);
+  --color-info-content: oklch(0.98 0.01 240);
+
+  --color-success: oklch(0.7 0.19 155);
+  --color-success-content: oklch(0.98 0.01 155);
+
+  --color-warning: oklch(0.8 0.16 80);
+  --color-warning-content: oklch(0.2 0.04 80);
+
+  --color-error: oklch(0.65 0.22 25);
+  --color-error-content: oklch(0.98 0.01 25);
+
+  /* ── Typography ── */
+  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif: "Noto Serif", "Noto Serif SC", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, "Cascadia Code", monospace;
+
+  /* ── Border Radius ── */
+  --radius-selector: 0.5rem;
+  --radius-field: 0.375rem;
+  --radius-box: 0.75rem;
+
+  /* ── Animation ── */
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
