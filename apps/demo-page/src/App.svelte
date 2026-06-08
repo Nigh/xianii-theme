@@ -1,8 +1,50 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   let showModal = $state(false);
   let activeTab = $state("preview");
   let toggleVal = $state(true);
   let rangeVal = $state(60);
+
+  let theme = $state(typeof document !== "undefined" ? document.documentElement.getAttribute("data-theme") || "xianii" : "xianii");
+
+  function toggleTheme() {
+    theme = theme === "xianii" ? "xianii-light" : "xianii";
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }
+
+  let barIdCounter = 12;
+  let revenueBars = $state(
+    [40, 65, 45, 80, 55, 70, 90, 75, 85, 60, 95, 70].map((h, i) => ({ id: i, h }))
+  );
+  let barRow: HTMLDivElement | undefined;
+
+  onMount(() => {
+    const interval = setInterval(() => {
+      if (!barRow) return;
+      revenueBars = [...revenueBars, { id: barIdCounter++, h: 0 }];
+      requestAnimationFrame(() => {
+        if (!barRow) return;
+        barRow.style.transition = "transform 600ms ease-out";
+        barRow.offsetHeight;
+        barRow.style.transform = "translateX(calc(-100% / 12))";
+      });
+      setTimeout(() => {
+        if (!barRow) return;
+        barRow.style.transition = "none";
+        barRow.offsetHeight;
+        barRow.style.transform = "none";
+        revenueBars = revenueBars.slice(1);
+        requestAnimationFrame(() => {
+          const target = Math.floor(Math.random() * 60) + 30;
+          const last = revenueBars[revenueBars.length - 1];
+          revenueBars = [...revenueBars.slice(0, -1), { id: last.id, h: target }];
+        });
+      }, 600);
+    }, 2000);
+    return () => clearInterval(interval);
+  });
 </script>
 
 <div class="min-h-screen bg-base-200 font-sans">
@@ -15,14 +57,16 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
           </svg>
         </div>
-        <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
           <li><a href="#components">Components</a></li>
           <li><a href="#typography">Typography</a></li>
           <li><a href="#layout">Layout</a></li>
         </ul>
       </div>
-      <a href="/" class="btn btn-ghost text-xl font-bold gap-2">
-        <span class="text-primary">◆</span> Xianii
+      <a href="https://github.com/Nigh" target="_blank" rel="noopener" class="btn btn-ghost text-xl font-bold gap-2">
+        <img src="xianii.webp" alt="Xianii" class="w-8 h-8 rounded-full" />
+        Xianii
       </a>
     </div>
     <div class="navbar-center hidden lg:flex">
@@ -34,17 +78,28 @@
       </ul>
     </div>
     <div class="navbar-end gap-2">
-      <button class="btn btn-ghost btn-circle" aria-label="Search">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+      <button class="btn btn-ghost btn-circle" onclick={toggleTheme} aria-label="Toggle theme">
+        {#if theme === "xianii"}
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        {:else}
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        {/if}
       </button>
+      <a href="https://github.com/Nigh/xianii-theme" target="_blank" rel="noopener" class="btn btn-ghost btn-circle" aria-label="GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </a>
       <button class="btn btn-primary btn-sm">Get Started</button>
     </div>
   </nav>
 
   <!-- ═══════════════════ HERO ═══════════════════ -->
-  <section class="hero bg-base-100 py-16 lg:py-24">
+  <section class="hero bg-base-100 min-h-[calc(100vh-4rem)]">
     <div class="hero-content text-center max-w-3xl">
       <div>
         <div class="badge badge-primary badge-lg mb-4">Tailwind CSS v4 + daisyUI v5</div>
@@ -56,35 +111,35 @@
           Zero config files — just import and go.
         </p>
         <div class="flex gap-3 justify-center flex-wrap">
-          <button class="btn btn-primary btn-lg">Explore Components</button>
-          <button class="btn btn-outline btn-lg">View Source</button>
+          <a href="#components" class="btn btn-primary btn-lg">Explore Components</a>
+          <a href="https://github.com/Nigh/xianii-theme" target="_blank" rel="noopener" class="btn btn-outline btn-lg">View Source</a>
         </div>
       </div>
     </div>
   </section>
 
-  <main class="max-w-7xl mx-auto px-4 lg:px-8 pb-20 space-y-16">
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 pb-20 space-y-16 pt-16">
 
     <!-- ═══════════════════ COLOR PALETTE ═══════════════════ -->
-    <section>
+    <section id="colors">
       <h2 class="text-3xl font-bold mb-2">Color Palette</h2>
       <p class="text-base-content/60 mb-6">Brand tokens defined in <code class="kbd kbd-sm">@theme</code> — usable as Tailwind utilities.</p>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         <div class="rounded-box overflow-hidden shadow">
           <div class="h-20 bg-primary"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Primary</p><p class="text-xs text-base-content/50">oklch(0.65 0.24 275)</p></div>
+          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Primary</p><p class="text-xs text-base-content/50">oklch(81% 0.117 11.638)</p></div>
         </div>
         <div class="rounded-box overflow-hidden shadow">
           <div class="h-20 bg-secondary"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Secondary</p><p class="text-xs text-base-content/50">oklch(0.7 0.2 180)</p></div>
+          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Secondary</p><p class="text-xs text-base-content/50">oklch(82% 0.119 306.383)</p></div>
         </div>
         <div class="rounded-box overflow-hidden shadow">
           <div class="h-20 bg-accent"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Accent</p><p class="text-xs text-base-content/50">oklch(0.75 0.18 60)</p></div>
+          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Accent</p><p class="text-xs text-base-content/50">oklch(83% 0.128 66.29)</p></div>
         </div>
         <div class="rounded-box overflow-hidden shadow">
           <div class="h-20 bg-neutral"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Neutral</p><p class="text-xs text-base-content/50">oklch(0.5 0.03 260)</p></div>
+          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Neutral</p><p class="text-xs text-base-content/50">#44403c</p></div>
         </div>
         <div class="rounded-box overflow-hidden shadow">
           <div class="h-20 bg-base-300"></div>
@@ -102,7 +157,7 @@
     </section>
 
     <!-- ═══════════════════ BUTTONS ═══════════════════ -->
-    <section>
+    <section id="components">
       <h2 class="text-3xl font-bold mb-2">Buttons</h2>
       <p class="text-base-content/60 mb-6">All button variants and sizes from daisyUI.</p>
 
@@ -142,10 +197,10 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Image Card -->
         <div class="card bg-base-100 shadow-sm image-full">
-          <figure>
-            <div class="w-full h-48 bg-gradient-to-br from-primary/40 to-secondary/40"></div>
+          <figure class="absolute inset-0">
+            <div class="w-full h-full bg-gradient-to-br from-primary/40 to-secondary/40"></div>
           </figure>
-          <div class="card-body justify-end">
+          <div class="card-body justify-end relative z-10">
             <h3 class="card-title text-base-100">Gradient Card</h3>
             <p class="text-base-100/80">Image overlay with gradient background.</p>
             <div class="card-actions">
@@ -168,10 +223,14 @@
               <span>↑ 12.5%</span>
               <span class="text-base-content/40">vs last month</span>
             </div>
-            <div class="mt-4 h-16 flex items-end gap-1">
-              {#each [40, 65, 45, 80, 55, 70, 90, 75, 85, 60, 95, 70] as h}
-                <div class="flex-1 bg-primary/20 rounded-t" style="height: {h}%"></div>
-              {/each}
+            <div class="mt-4 h-16 overflow-hidden">
+              <div class="flex h-full" bind:this={barRow}>
+                {#each revenueBars as bar (bar.id)}
+                  <div class="h-full px-[1px] flex flex-col justify-end" style="flex: 0 0 calc(100% / 12)">
+                    <div class="bg-primary/30 rounded-t transition-[height] duration-500 ease-out" style="height: {bar.h}%"></div>
+                  </div>
+                {/each}
+              </div>
             </div>
           </div>
         </div>
@@ -245,8 +304,8 @@
     <section>
       <h2 class="text-3xl font-bold mb-2">Stats</h2>
       <p class="text-base-content/60 mb-6">Data display components for dashboards.</p>
-      <div class="stats shadow w-full">
-        <div class="stat">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="stat bg-base-100 rounded-box border border-base-300 shadow-sm">
           <div class="stat-figure text-primary">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
@@ -254,7 +313,7 @@
           <div class="stat-value text-primary">31K</div>
           <div class="stat-desc">Jan 1 – Jun 8</div>
         </div>
-        <div class="stat">
+        <div class="stat bg-base-100 rounded-box border border-base-300 shadow-sm">
           <div class="stat-figure text-secondary">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
           </div>
@@ -262,7 +321,7 @@
           <div class="stat-value text-secondary">1,200</div>
           <div class="stat-desc">↗︎ 400 (22%)</div>
         </div>
-        <div class="stat">
+        <div class="stat bg-base-100 rounded-box border border-base-300 shadow-sm">
           <div class="stat-figure text-accent">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
           </div>
@@ -274,7 +333,7 @@
     </section>
 
     <!-- ═══════════════════ TYPOGRAPHY ═══════════════════ -->
-    <section>
+    <section id="typography">
       <h2 class="text-3xl font-bold mb-2">Typography</h2>
       <p class="text-base-content/60 mb-6">Font families defined in <code class="kbd kbd-sm">@theme</code>.</p>
 
@@ -295,6 +354,9 @@
             <h3 class="card-title">Serif — Noto Serif</h3>
             <p class="font-serif text-3xl">The quick brown fox jumps over the lazy dog.</p>
             <p class="font-serif text-xl">Body text in serif for long-form reading, articles, and editorial content.</p>
+            <div class="divider"></div>
+            <p class="font-serif text-3xl">敏捷的棕色狐狸跳过了懒狗。</p>
+            <p class="font-serif text-xl">使用衬线字体进行长文阅读、文章和社论内容的排版。</p>
           </div>
         </div>
       </div>
@@ -305,7 +367,7 @@
           <pre class="bg-base-200 rounded-field p-4 text-sm font-mono overflow-x-auto"><code>import "@xianii/design-system/theme.css";
 
 @theme &#123;
-  --color-primary: oklch(0.65 0.24 275);
+  --color-primary: oklch(81% 0.117 11.638);
   --font-sans: "Inter", sans-serif;
 &#125;</code></pre>
         </div>
@@ -327,6 +389,19 @@
         <div class="bg-base-100 rounded-box p-6 shadow-sm text-center">
           <p class="text-lg font-medium">H3</p>
           <p class="text-sm text-base-content/50">1.125rem / 18px</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="bg-base-100 rounded-box p-6 shadow-sm">
+          <p class="text-sm text-base-content/50 mb-3 font-medium">English</p>
+          <p class="font-sans text-2xl leading-relaxed">Design is not just what it looks like and feels like. Design is how it works.</p>
+          <p class="text-xs text-base-content/40 mt-3">— Steve Jobs</p>
+        </div>
+        <div class="bg-base-100 rounded-box p-6 shadow-sm">
+          <p class="text-sm text-base-content/50 mb-3 font-medium">中文</p>
+          <p class="font-sans text-2xl leading-relaxed">道生一，一生二，二生三，三生万物。人法地，地法天，天法道，道法自然。</p>
+          <p class="text-xs text-base-content/40 mt-3">— 老子《道德经》</p>
         </div>
       </div>
     </section>
@@ -375,7 +450,7 @@
             <div class="form-control">
               <label class="label cursor-pointer justify-start gap-3">
                 <input type="checkbox" class="toggle toggle-primary" bind:checked={toggleVal} />
-                <span class="label-text">Dark mode {toggleVal ? "on" : "off"}</span>
+                <span class="label-text">Notifications {toggleVal ? "on" : "off"}</span>
               </label>
             </div>
             <div class="form-control">
@@ -416,11 +491,11 @@
           <span>Design system installed successfully!</span>
         </div>
         <div role="alert" class="alert alert-warning">
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
           <span>Legacy config detected — consider migrating to CSS-native setup.</span>
         </div>
         <div role="alert" class="alert alert-error">
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <span>Build failed — missing required theme token.</span>
         </div>
       </div>
@@ -550,7 +625,7 @@
     </section>
 
     <!-- ═══════════════════ LAYOUT PATTERNS ═══════════════════ -->
-    <section>
+    <section id="layout">
       <h2 class="text-3xl font-bold mb-2">Layout Patterns</h2>
       <p class="text-base-content/60 mb-6">Common responsive layout structures.</p>
 
@@ -623,27 +698,32 @@
   </main>
 
   <!-- ═══════════════════ FOOTER ═══════════════════ -->
-  <footer class="footer bg-base-100 text-base-content p-10 border-t border-base-300">
-    <aside>
-      <p class="text-lg font-bold"><span class="text-primary">◆</span> Xianii</p>
-      <p class="text-sm text-base-content/50">CSS-first design system for Tailwind v4 + daisyUI v5.</p>
-    </aside>
-    <nav>
-      <h6 class="footer-title">Resources</h6>
-      <a href="#docs" class="link link-hover">Documentation</a>
-      <a href="#components" class="link link-hover">Components</a>
-      <a href="#templates" class="link link-hover">Templates</a>
-    </nav>
-    <nav>
-      <h6 class="footer-title">Community</h6>
-      <a href="#github" class="link link-hover">GitHub</a>
-      <a href="#discord" class="link link-hover">Discord</a>
-      <a href="#twitter" class="link link-hover">Twitter</a>
-    </nav>
-    <nav>
-      <h6 class="footer-title">Legal</h6>
-      <a href="#license" class="link link-hover">MIT License</a>
-      <a href="#privacy" class="link link-hover">Privacy</a>
-    </nav>
+  <footer class="footer bg-base-100 text-base-content border-t border-base-300">
+    <div class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <aside class="flex items-center gap-3">
+        <a href="https://github.com/Nigh" target="_blank" rel="noopener">
+          <img src="xianii.webp" alt="Xianii" class="w-8 h-8 rounded-full" />
+        </a>
+        <div>
+          <p class="text-lg font-bold">Xianii</p>
+          <p class="text-xs text-base-content/50">CSS-first design system for Tailwind v4 + daisyUI v5.</p>
+        </div>
+      </aside>
+      <div class="flex flex-wrap gap-8 text-sm">
+        <div class="flex flex-col gap-2">
+          <span class="footer-title text-xs">Resources</span>
+          <a href="#components" class="link link-hover">Components</a>
+          <a href="#typography" class="link link-hover">Typography</a>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="footer-title text-xs">Community</span>
+          <a href="https://github.com/Nigh/xianii-theme" target="_blank" rel="noopener" class="link link-hover">GitHub</a>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="footer-title text-xs">Legal</span>
+          <a href="#license" class="link link-hover">MIT License</a>
+        </div>
+      </div>
+    </div>
   </footer>
 </div>
