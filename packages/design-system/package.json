@@ -1,6 +1,6 @@
 {
   "name": "@xianii/design-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Xianii Design System — Tailwind CSS v4 + daisyUI v5 theme tokens and utilities",
   "exports": {
