@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Nigh/xianii-theme/compare/v1.0.1...v1.1.0) (2026-06-10)
+
+
+### Features
+
+* **theme:** rework accent and semantic colors for clearer distinction ([92ae266](https://github.com/Nigh/xianii-theme/commit/92ae266d53fb068857d5b44f94b8d0d761cac25a))
+
 # 1.0.0 (2026-06-08)
 
 
