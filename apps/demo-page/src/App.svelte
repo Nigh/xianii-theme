@@ -8,41 +8,35 @@
 
   let theme = $state(typeof document !== "undefined" ? document.documentElement.getAttribute("data-theme") || "xianii" : "xianii");
 
+  let swatches = $state<{ name: string; value: string }[]>([
+    { name: "Primary", value: "" },
+    { name: "Secondary", value: "" },
+    { name: "Accent", value: "" },
+    { name: "Neutral", value: "" },
+  ]);
+
+  function readSwatches() {
+    const style = getComputedStyle(document.documentElement);
+    swatches = swatches.map((s) => ({
+      ...s,
+      value: style.getPropertyValue(`--color-${s.name.toLowerCase()}`).trim(),
+    }));
+  }
+
   function toggleTheme() {
     theme = theme === "xianii" ? "xianii-light" : "xianii";
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
+    readSwatches();
   }
 
-  let barIdCounter = 12;
-  let revenueBars = $state(
-    [40, 65, 45, 80, 55, 70, 90, 75, 85, 60, 95, 70].map((h, i) => ({ id: i, h }))
-  );
-  let barRow: HTMLDivElement | undefined;
+  let revenueBars = $state([40, 65, 45, 80, 55, 70, 90, 75, 85, 60, 95, 70]);
 
   onMount(() => {
+    readSwatches();
     const interval = setInterval(() => {
-      if (!barRow) return;
-      revenueBars = [...revenueBars, { id: barIdCounter++, h: 0 }];
-      requestAnimationFrame(() => {
-        if (!barRow) return;
-        barRow.style.transition = "transform 600ms ease-out";
-        barRow.offsetHeight;
-        barRow.style.transform = "translateX(calc(-100% / 12))";
-      });
-      setTimeout(() => {
-        if (!barRow) return;
-        barRow.style.transition = "none";
-        barRow.offsetHeight;
-        barRow.style.transform = "none";
-        revenueBars = revenueBars.slice(1);
-        requestAnimationFrame(() => {
-          const target = Math.floor(Math.random() * 60) + 30;
-          const last = revenueBars[revenueBars.length - 1];
-          revenueBars = [...revenueBars.slice(0, -1), { id: last.id, h: target }];
-        });
-      }, 600);
-    }, 2000);
+      revenueBars = revenueBars.map(() => Math.floor(Math.random() * 65) + 25);
+    }, 2500);
     return () => clearInterval(interval);
   });
 </script>
@@ -99,12 +93,15 @@
   </nav>
 
   <!-- ═══════════════════ HERO ═══════════════════ -->
-  <section class="hero bg-base-100 min-h-[calc(100vh-4rem)]">
-    <div class="hero-content text-center max-w-3xl">
+  <section class="hero bg-base-100 min-h-[calc(100vh-4rem)] relative overflow-hidden">
+    <div class="absolute top-[8%] left-[22%] w-[34rem] h-[34rem] rounded-full bg-primary/20 blur-3xl animate-float" aria-hidden="true"></div>
+    <div class="absolute top-[22%] right-[18%] w-[38rem] h-[38rem] rounded-full bg-secondary/15 blur-3xl animate-float [animation-delay:-2s]" aria-hidden="true"></div>
+    <div class="absolute bottom-[6%] left-[34%] w-[32rem] h-[32rem] rounded-full bg-accent/15 blur-3xl animate-float [animation-delay:-4s]" aria-hidden="true"></div>
+    <div class="hero-content text-center max-w-3xl relative z-10">
       <div>
-        <div class="badge badge-primary badge-lg mb-4">Tailwind CSS v4 + daisyUI v5</div>
+        <div class="badge badge-secondary badge-outline badge-lg mb-4">Tailwind CSS v4 + daisyUI v5</div>
         <h1 class="text-5xl lg:text-6xl font-extrabold leading-tight">
-          Xianii <span class="text-primary">Design System</span>
+          Xianii <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Design System</span>
         </h1>
         <p class="py-6 text-lg text-base-content/70 max-w-xl mx-auto">
           A CSS-first, themeable design system built on the latest Tailwind v4 architecture.
@@ -125,22 +122,12 @@
       <h2 class="text-3xl font-bold mb-2">Color Palette</h2>
       <p class="text-base-content/60 mb-6">Brand tokens defined in <code class="kbd kbd-sm">@theme</code> — usable as Tailwind utilities.</p>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-        <div class="rounded-box overflow-hidden shadow">
-          <div class="h-20 bg-primary"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Primary</p><p class="text-xs text-base-content/50">oklch(81% 0.117 11.638)</p></div>
-        </div>
-        <div class="rounded-box overflow-hidden shadow">
-          <div class="h-20 bg-secondary"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Secondary</p><p class="text-xs text-base-content/50">oklch(82% 0.119 306.383)</p></div>
-        </div>
-        <div class="rounded-box overflow-hidden shadow">
-          <div class="h-20 bg-accent"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Accent</p><p class="text-xs text-base-content/50">oklch(83% 0.128 66.29)</p></div>
-        </div>
-        <div class="rounded-box overflow-hidden shadow">
-          <div class="h-20 bg-neutral"></div>
-          <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Neutral</p><p class="text-xs text-base-content/50">#44403c</p></div>
-        </div>
+        {#each swatches as swatch (swatch.name)}
+          <div class="rounded-box overflow-hidden shadow">
+            <div class="h-20" style="background-color: var(--color-{swatch.name.toLowerCase()})"></div>
+            <div class="bg-base-100 p-3"><p class="font-semibold text-sm">{swatch.name}</p><p class="text-xs text-base-content/50">{swatch.value}</p></div>
+          </div>
+        {/each}
         <div class="rounded-box overflow-hidden shadow">
           <div class="h-20 bg-base-300"></div>
           <div class="bg-base-100 p-3"><p class="font-semibold text-sm">Base</p><p class="text-xs text-base-content/50">Three shades</p></div>
@@ -194,85 +181,96 @@
       <h2 class="text-3xl font-bold mb-2">Cards</h2>
       <p class="text-base-content/60 mb-6">Flexible card layouts for dashboards and content.</p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
         <!-- Image Card -->
-        <div class="card bg-base-100 shadow-sm image-full">
+        <div class="card shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
           <figure class="absolute inset-0">
-            <div class="w-full h-full bg-gradient-to-br from-primary/40 to-secondary/40"></div>
+            <div class="w-full h-full bg-gradient-to-br from-primary via-secondary to-accent"></div>
           </figure>
           <div class="card-body justify-end relative z-10">
-            <h3 class="card-title text-base-100">Gradient Card</h3>
-            <p class="text-base-100/80">Image overlay with gradient background.</p>
+            <h3 class="card-title text-primary-content drop-shadow">Gradient Card</h3>
+            <p class="text-primary-content/90">Image overlay with gradient background.</p>
             <div class="card-actions">
-              <button class="btn btn-sm btn-primary">View</button>
+              <button class="btn btn-sm bg-base-100/90 border-none text-base-content backdrop-blur">View</button>
             </div>
           </div>
         </div>
 
         <!-- Stats Card -->
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div class="card-body">
-            <div class="flex items-center gap-3 mb-2">
-              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">↑</div>
-              <div>
-                <p class="text-sm text-base-content/50">Revenue</p>
-                <p class="text-2xl font-bold">$48,290</p>
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">↑</div>
+                <div>
+                  <p class="text-sm text-base-content/50">Revenue</p>
+                  <p class="text-2xl font-bold">$48,290</p>
+                </div>
               </div>
+              <span class="badge badge-success badge-sm badge-soft">+12.5%</span>
             </div>
-            <div class="flex items-center gap-1 text-success text-sm font-medium">
-              <span>↑ 12.5%</span>
-              <span class="text-base-content/40">vs last month</span>
+            <div class="mt-auto pt-4 h-28 flex items-end gap-1.5 border-b border-base-300">
+              {#each revenueBars as h, i (i)}
+                <div class="flex-1 rounded-t bg-gradient-to-t from-primary to-primary/35 transition-[height] duration-1000 ease-in-out" style="height: {h}%"></div>
+              {/each}
             </div>
-            <div class="mt-4 h-16 overflow-hidden">
-              <div class="flex h-full" bind:this={barRow}>
-                {#each revenueBars as bar (bar.id)}
-                  <div class="h-full px-[1px] flex flex-col justify-end" style="flex: 0 0 calc(100% / 12)">
-                    <div class="bg-primary/30 rounded-t transition-[height] duration-500 ease-out" style="height: {bar.h}%"></div>
-                  </div>
-                {/each}
-              </div>
+            <div class="flex justify-between text-[10px] text-base-content/40 pt-1 font-mono">
+              <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
             </div>
           </div>
         </div>
 
         <!-- Feature Card -->
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div class="card-body">
-            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent text-2xl mb-2">⚡</div>
+            <div class="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center text-accent text-2xl mb-2">⚡</div>
             <h3 class="card-title">Zero Config</h3>
             <p class="text-base-content/60">No tailwind.config.js needed. CSS-native configuration via Tailwind v4's <code class="kbd kbd-xs">@theme</code> directive.</p>
-            <div class="card-actions justify-end mt-2">
+            <ul class="mt-2 space-y-1.5 text-sm text-base-content/60">
+              <li class="flex items-center gap-2"><span class="text-success">✓</span> One-line install</li>
+              <li class="flex items-center gap-2"><span class="text-success">✓</span> Dark / light themes built-in</li>
+              <li class="flex items-center gap-2"><span class="text-success">✓</span> Pure CSS, zero JS runtime</li>
+            </ul>
+            <div class="card-actions justify-end mt-auto">
               <button class="btn btn-sm btn-ghost">Learn More →</button>
             </div>
           </div>
         </div>
 
         <!-- Product Card -->
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm hover:shadow-lg transition-shadow duration-300">
           <figure class="px-4 pt-4">
-            <div class="w-full h-40 bg-gradient-to-r from-info/20 to-success/20 rounded-xl"></div>
+            <div class="w-full h-32 bg-gradient-to-br from-secondary/25 via-accent/15 to-primary/25 rounded-xl flex items-center justify-center">
+              <span class="text-4xl opacity-60">✦</span>
+            </div>
           </figure>
           <div class="card-body">
-            <h3 class="card-title">Pro Plan</h3>
+            <div class="flex items-center justify-between">
+              <h3 class="card-title">Pro Plan</h3>
+              <span class="badge badge-secondary badge-outline badge-sm">Popular</span>
+            </div>
             <p class="text-base-content/60">Everything you need for production applications.</p>
             <div class="flex items-baseline gap-1 mt-2">
               <span class="text-3xl font-bold">$29</span>
               <span class="text-base-content/40">/month</span>
             </div>
-            <div class="card-actions mt-2">
+            <div class="card-actions mt-auto">
               <button class="btn btn-primary btn-block">Subscribe</button>
             </div>
           </div>
         </div>
 
         <!-- Testimonial -->
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div class="card-body">
-            <div class="flex gap-1 text-warning text-sm mb-2">
-              {#each Array(5) as _}★{/each}
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex gap-1 text-warning text-sm">
+                {#each Array(5) as _}★{/each}
+              </div>
+              <span class="text-5xl leading-none text-primary/20 font-serif select-none" aria-hidden="true">”</span>
             </div>
             <p class="italic text-base-content/70">"This design system saved us weeks of work. The CSS-first approach is exactly what we needed."</p>
-            <div class="flex items-center gap-3 mt-4">
+            <div class="flex items-center gap-3 mt-auto pt-4">
               <div class="avatar placeholder">
                 <div class="bg-primary text-primary-content w-10 rounded-full">
                   <span class="text-sm">JD</span>
@@ -287,12 +285,13 @@
         </div>
 
         <!-- Action Card -->
-        <div class="card bg-primary text-primary-content shadow-sm">
+        <div class="card bg-gradient-to-br from-primary to-secondary text-primary-content shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div class="card-body">
             <h3 class="card-title">Ready to Start?</h3>
             <p class="text-primary-content/80">Install the design system and begin building beautiful interfaces in minutes.</p>
-            <div class="card-actions mt-2">
-              <button class="btn btn-sm bg-white text-primary border-none">Install Now</button>
+            <pre class="bg-base-100/20 rounded-field px-3 py-2 font-mono text-xs mt-2 overflow-x-auto"><code>pnpm add @xianii/design-system</code></pre>
+            <div class="card-actions mt-auto">
+              <button class="btn btn-sm bg-base-100 text-base-content border-none">Install Now</button>
               <button class="btn btn-sm btn-ghost text-primary-content">Documentation</button>
             </div>
           </div>
@@ -338,7 +337,7 @@
       <p class="text-base-content/60 mb-6">Font families defined in <code class="kbd kbd-sm">@theme</code>.</p>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
           <div class="card-body space-y-4">
             <h3 class="card-title">Sans-Serif — Inter</h3>
             <p class="font-sans text-4xl font-light">Light 300</p>
@@ -349,7 +348,7 @@
             <p class="font-sans font-extrabold">ExtraBold 800</p>
           </div>
         </div>
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
           <div class="card-body space-y-4">
             <h3 class="card-title">Serif — Noto Serif</h3>
             <p class="font-serif text-3xl">The quick brown fox jumps over the lazy dog.</p>
@@ -361,7 +360,7 @@
         </div>
       </div>
 
-      <div class="card bg-base-100 shadow-sm mt-6">
+      <div class="card bg-base-100 border border-base-300/60 shadow-sm mt-6">
         <div class="card-body">
           <h3 class="card-title">Monospace — JetBrains Mono</h3>
           <pre class="bg-base-200 rounded-field p-4 text-sm font-mono overflow-x-auto"><code>import "@xianii/design-system/theme.css";
@@ -374,31 +373,31 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-        <div class="bg-base-100 rounded-box p-6 shadow-sm text-center">
+        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
           <p class="text-6xl font-extrabold text-primary">Aa</p>
           <p class="text-sm text-base-content/50 mt-2">Display</p>
         </div>
-        <div class="bg-base-100 rounded-box p-6 shadow-sm text-center">
+        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
           <p class="text-4xl font-bold">H1</p>
           <p class="text-sm text-base-content/50">3rem / 48px</p>
         </div>
-        <div class="bg-base-100 rounded-box p-6 shadow-sm text-center">
+        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
           <p class="text-2xl font-semibold">H2</p>
           <p class="text-sm text-base-content/50">1.5rem / 24px</p>
         </div>
-        <div class="bg-base-100 rounded-box p-6 shadow-sm text-center">
+        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
           <p class="text-lg font-medium">H3</p>
           <p class="text-sm text-base-content/50">1.125rem / 18px</p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        <div class="bg-base-100 rounded-box p-6 shadow-sm">
+        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm">
           <p class="text-sm text-base-content/50 mb-3 font-medium">English</p>
           <p class="font-sans text-2xl leading-relaxed">Design is not just what it looks like and feels like. Design is how it works.</p>
           <p class="text-xs text-base-content/40 mt-3">— Steve Jobs</p>
         </div>
-        <div class="bg-base-100 rounded-box p-6 shadow-sm">
+        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm">
           <p class="text-sm text-base-content/50 mb-3 font-medium">中文</p>
           <p class="font-sans text-2xl leading-relaxed">道生一，一生二，二生三，三生万物。人法地，地法天，天法道，道法自然。</p>
           <p class="text-xs text-base-content/40 mt-3">— 老子《道德经》</p>
@@ -412,7 +411,7 @@
       <p class="text-base-content/60 mb-6">Form controls styled with daisyUI.</p>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
           <div class="card-body space-y-4">
             <h3 class="card-title">Input Fields</h3>
             <label class="floating-label">
@@ -437,7 +436,7 @@
           </div>
         </div>
 
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
           <div class="card-body space-y-4">
             <h3 class="card-title">Selects &amp; Toggles</h3>
             <select class="select select-bordered w-full">
@@ -505,46 +504,46 @@
     <section>
       <h2 class="text-3xl font-bold mb-2">Table</h2>
       <p class="text-base-content/60 mb-6">Tabular data display.</p>
-      <div class="overflow-x-auto rounded-box border border-base-300">
+      <div class="overflow-x-auto rounded-box border border-base-300 bg-base-100 shadow-sm">
         <table class="table table-zebra">
           <thead>
-            <tr class="bg-base-200">
+            <tr class="bg-base-200 text-xs uppercase tracking-wider text-base-content/60">
               <th>Component</th>
               <th>Category</th>
               <th>Status</th>
-              <th>Version</th>
+              <th class="text-right">Version</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr class="hover:bg-base-300/30 transition-colors">
               <td class="font-medium">Button</td>
-              <td>Action</td>
-              <td><span class="badge badge-success badge-sm">Stable</span></td>
-              <td class="font-mono text-sm">v5.0.0</td>
+              <td class="text-base-content/60">Action</td>
+              <td><span class="badge badge-success badge-soft badge-sm">Stable</span></td>
+              <td class="font-mono text-sm text-right">v5.0.0</td>
             </tr>
-            <tr>
+            <tr class="hover:bg-base-300/30 transition-colors">
               <td class="font-medium">Card</td>
-              <td>Layout</td>
-              <td><span class="badge badge-success badge-sm">Stable</span></td>
-              <td class="font-mono text-sm">v5.0.0</td>
+              <td class="text-base-content/60">Layout</td>
+              <td><span class="badge badge-success badge-soft badge-sm">Stable</span></td>
+              <td class="font-mono text-sm text-right">v5.0.0</td>
             </tr>
-            <tr>
+            <tr class="hover:bg-base-300/30 transition-colors">
               <td class="font-medium">Modal</td>
-              <td>Overlay</td>
-              <td><span class="badge badge-warning badge-sm">Beta</span></td>
-              <td class="font-mono text-sm">v5.0.0-beta</td>
+              <td class="text-base-content/60">Overlay</td>
+              <td><span class="badge badge-warning badge-soft badge-sm">Beta</span></td>
+              <td class="font-mono text-sm text-right">v5.0.0-beta</td>
             </tr>
-            <tr>
+            <tr class="hover:bg-base-300/30 transition-colors">
               <td class="font-medium">Data Table</td>
-              <td>Data</td>
-              <td><span class="badge badge-info badge-sm">New</span></td>
-              <td class="font-mono text-sm">v5.1.0</td>
+              <td class="text-base-content/60">Data</td>
+              <td><span class="badge badge-info badge-soft badge-sm">New</span></td>
+              <td class="font-mono text-sm text-right">v5.1.0</td>
             </tr>
-            <tr>
+            <tr class="hover:bg-base-300/30 transition-colors">
               <td class="font-medium">Toast</td>
-              <td>Feedback</td>
-              <td><span class="badge badge-success badge-sm">Stable</span></td>
-              <td class="font-mono text-sm">v5.0.0</td>
+              <td class="text-base-content/60">Feedback</td>
+              <td><span class="badge badge-success badge-soft badge-sm">Stable</span></td>
+              <td class="font-mono text-sm text-right">v5.0.0</td>
             </tr>
           </tbody>
         </table>
@@ -597,7 +596,7 @@
       <h2 class="text-3xl font-bold mb-2">Progress &amp; Loading</h2>
       <p class="text-base-content/60 mb-6">Feedback indicators for async operations.</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
           <div class="card-body space-y-4">
             <h3 class="card-title">Progress Bars</h3>
             <progress class="progress progress-primary w-full" value="10" max="100"></progress>
@@ -606,7 +605,7 @@
             <progress class="progress progress-success w-full" value="100" max="100"></progress>
           </div>
         </div>
-        <div class="card bg-base-100 shadow-sm">
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
           <div class="card-body space-y-6">
             <h3 class="card-title">Spinners</h3>
             <div class="flex gap-6 items-center">
@@ -683,7 +682,7 @@
     <section>
       <h2 class="text-3xl font-bold mb-2">Quick Start</h2>
       <p class="text-base-content/60 mb-6">Get running in seconds.</p>
-      <div class="card bg-base-100 shadow-sm">
+      <div class="card bg-base-100 border border-base-300/60 shadow-sm">
         <div class="card-body">
           <div class="tabs tabs-sm mb-4">
             <button class="tab tab-active font-mono text-xs">pnpm</button>
