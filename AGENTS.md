@@ -2,14 +2,27 @@
 
 ## Project Overview
 
-pnpm monorepo containing the **@xianii/design-system** package (CSS-first design system built on Tailwind CSS v4 + daisyUI v5) and application workspaces.
+pnpm monorepo containing **@xianii/design-system** — framework-agnostic CSS theme tokens — and a demo app.
+
+The package ships **tokens only**. It does not constrain UI frameworks or component libraries. Tailwind CSS and daisyUI are optional adapters; Svelte + daisyUI exist solely to build the demo page.
 
 ## Repository Structure
 
 ```
-packages/design-system/   @xianii/design-system (publishable)
-apps/demo-page/           demo site (deployed to GitHub Pages)
+packages/design-system/   @xianii/design-system (publishable: tokens + optional adapters)
+apps/demo-page/           demo site (Svelte 5 + daisyUI, deployed to GitHub Pages)
 ```
+
+## Package layout
+
+| File | Role |
+|------|------|
+| `tokens.css` | Default export — pure CSS variables |
+| `adapters/tailwind.css` | Optional Tailwind `@theme` bridge |
+| `adapters/daisyui.css` | Optional daisyUI theme plugin |
+| `theme.css` | Convenience import of both adapters |
+
+Do not add framework components to the publishable package. Keep demo-only deps in `apps/demo-page`.
 
 ## Development Flow
 
@@ -90,3 +103,5 @@ BREAKING CHANGE: --color-primary renamed to --color-brand
 - Do not manually create git tags — semantic-release creates them.
 - The release config is at `packages/design-system/.releaserc.json`.
 - The workflow is at `.github/workflows/release.yml`.
+- Treat `@xianii/design-system` as tokens-first; do not couple the package to Svelte or require daisyUI for the default export.
+- When editing theme colors, keep `tokens.css` and `adapters/daisyui.css` in sync.

@@ -2,22 +2,40 @@
   "name": "@xianii/design-system",
   "version": "1.1.0",
   "type": "module",
-  "description": "Xianii Design System — Tailwind CSS v4 + daisyUI v5 theme tokens and utilities",
+  "description": "Xianii theme tokens — framework-agnostic CSS custom properties, with optional Tailwind and daisyUI adapters",
   "exports": {
-    ".": "./theme.css",
-    "./theme.css": "./theme.css"
+    ".": "./tokens.css",
+    "./tokens.css": "./tokens.css",
+    "./theme.css": "./theme.css",
+    "./tailwind.css": "./adapters/tailwind.css",
+    "./daisyui.css": "./adapters/daisyui.css"
   },
   "files": [
+    "tokens.css",
     "theme.css",
+    "adapters",
     "README.md",
     "CHANGELOG.md"
   ],
   "keywords": [
-    "design-system",
+    "theme",
+    "design-tokens",
+    "css",
     "tailwindcss",
-    "daisyui",
-    "theme"
+    "daisyui"
   ],
+  "peerDependencies": {
+    "tailwindcss": "^4",
+    "daisyui": "^5"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    },
+    "daisyui": {
+      "optional": true
+    }
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
