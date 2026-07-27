@@ -1,6 +1,6 @@
 {
   "name": "@xianii/design-system",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "Xianii theme tokens — framework-agnostic CSS custom properties, with optional Tailwind and daisyUI adapters",
   "exports": {

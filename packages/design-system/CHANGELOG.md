@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/Nigh/xianii-theme/compare/v1.1.0...v2.0.0) (2026-07-27)
+
+
+* feat!: ship tokens-first package with optional adapters ([ff00594](https://github.com/Nigh/xianii-theme/commit/ff0059403390a0235b19d580e7ad590ad96a1df2))
+
+
+### BREAKING CHANGES
+
+* theme.css no longer imports tailwindcss or enables the
+daisyUI plugin — consumers must add those in their own CSS when using
+adapters. Prefer `@xianii/design-system` (tokens) for new integrations.
+
+Co-authored-by: Cursor <cursoragent@cursor.com>
+
 # [1.1.0](https://github.com/Nigh/xianii-theme/compare/v1.0.1...v1.1.0) (2026-06-10)
 
 
