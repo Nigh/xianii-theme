@@ -1,99 +1,107 @@
 # @xianii/design-system
 
-A CSS-first design system built on **Tailwind CSS v4** and **daisyUI v5**. No `tailwind.config.js` — everything is configured via CSS-native `@theme` directives.
+Framework-agnostic **CSS theme tokens** for the Xianii brand. No UI components, no framework lock-in.
+
+Optional adapters bridge the same tokens into Tailwind CSS v4 and daisyUI v5. Svelte + daisyUI are used only by the demo app in this repo — not by this package.
 
 ## Installation
 
 ```bash
-# pnpm
 pnpm add @xianii/design-system
-
-# npm
-npm install @xianii/design-system
 ```
 
-Or install from GitHub directly:
+## Usage
+
+### Default: CSS variables only
+
+```css
+@import "@xianii/design-system";
+/* or: @import "@xianii/design-system/tokens.css"; */
+```
+
+```html
+<html data-theme="xianii">
+  <!-- or data-theme="xianii-light" -->
+  <button style="background: var(--color-primary); color: var(--color-primary-content)">
+    Click Me
+  </button>
+</html>
+```
+
+Works with any stack (vanilla, React, Vue, Svelte, etc.).
+
+### Optional: Tailwind v4 adapter
 
 ```bash
-pnpm add github:xianii/xianii-theme#main
+pnpm add tailwindcss@^4 @tailwindcss/vite
 ```
 
-## How to Import this Design System
+```css
+@import "tailwindcss";
+@import "@xianii/design-system/tailwind.css";
+```
 
-### Step 1: Install Dependencies
+Then use utilities: `bg-primary`, `text-base-content`, `font-sans`, `animate-float`, etc.
 
-Your project needs Tailwind CSS v4 and daisyUI v5 as peer dependencies:
+### Optional: daisyUI v5 adapter
 
 ```bash
 pnpm add tailwindcss@^4 daisyui@^5 @tailwindcss/vite
 ```
 
-### Step 2: Configure Vite
-
-```ts
-// vite.config.ts
-import { defineConfig } from "vite";
-import tailwindcss from "@tailwindcss/vite";
-
-export default defineConfig({
-  plugins: [tailwindcss()],
-});
+```css
+@import "tailwindcss";
+@plugin "daisyui";
+@import "@xianii/design-system/daisyui.css";
+@import "@xianii/design-system/tailwind.css"; /* fonts / animate utilities */
 ```
 
-### Step 3: Import the Theme CSS
-
-In your main CSS entry file (e.g., `src/app.css`):
+Or the convenience entry (daisyUI themes + Tailwind `@theme`):
 
 ```css
+@import "tailwindcss";
+@plugin "daisyui";
 @import "@xianii/design-system/theme.css";
 ```
 
-That's it. All brand colors, fonts, and daisyUI components are now available.
-
-### Step 4: Use the Utilities
-
 ```html
-<!-- Brand-colored button -->
 <button class="btn btn-primary">Click Me</button>
-
-<!-- Custom font utilities -->
-<h1 class="font-sans text-4xl font-bold">Heading</h1>
-<p class="font-serif text-lg">Body text in serif.</p>
-<code class="font-mono text-sm">Code block</code>
-
-<!-- Color utilities from @theme -->
-<div class="bg-primary text-primary-content">Primary</div>
-<div class="bg-secondary text-secondary-content">Secondary</div>
-<div class="bg-accent text-accent-content">Accent</div>
-<div class="bg-base-100 text-base-content">Base surface</div>
 ```
 
-## Theme Tokens
+## Package exports
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--color-primary` | `oklch(0.65 0.24 275)` | Primary actions, links |
-| `--color-secondary` | `oklch(0.7 0.2 180)` | Secondary actions |
-| `--color-accent` | `oklch(0.75 0.18 60)` | Highlights, badges |
-| `--color-neutral` | `oklch(0.5 0.03 260)` | Neutral surfaces |
-| `--color-base-100` | `oklch(0.99 0.005 90)` | Page background |
-| `--color-base-200` | `oklch(0.96 0.008 90)` | Card background |
-| `--color-base-300` | `oklch(0.92 0.01 90)` | Borders, dividers |
-| `--font-sans` | Inter, Noto Sans SC | Headings, UI |
-| `--font-serif` | Noto Serif | Long-form text |
-| `--font-mono` | JetBrains Mono | Code blocks |
+| Export | What it is |
+|--------|------------|
+| `@xianii/design-system` / `tokens.css` | Pure CSS custom properties (default) |
+| `tailwind.css` | Tailwind `@theme inline` bridge |
+| `daisyui.css` | daisyUI `@plugin "daisyui/theme"` themes |
+| `theme.css` | Convenience: daisyUI + Tailwind adapters |
+
+`tailwindcss` and `daisyui` are **optional** peer dependencies — required only when using the matching adapter.
+
+## Theme tokens
+
+| Token | Usage |
+|-------|-------|
+| `--color-primary` | Primary actions, links |
+| `--color-secondary` | Secondary actions |
+| `--color-accent` | Highlights |
+| `--color-neutral` | Neutral surfaces |
+| `--color-base-100` / `200` / `300` | Surfaces |
+| `--color-base-content` | Default text on base |
+| `--color-*-content` | Foreground on each role color |
+| `--color-info` / `success` / `warning` / `error` | Status |
+| `--font-sans` / `serif` / `mono` | Typography |
+| `--radius-selector` / `field` / `box` | Radii |
+
+Themes: `data-theme="xianii"` (dark, default) and `data-theme="xianii-light"`.
 
 ## For AI Agents
 
-To use this design system in an automated workflow:
-
-1. Add the dependency: `pnpm add @xianii/design-system`
-2. In the project's main CSS file, add: `@import "@xianii/design-system/theme.css";`
-3. Use daisyUI classes (`btn`, `card`, `modal`, etc.) — they will automatically use the Xianii theme colors.
-4. Use Tailwind color utilities: `bg-primary`, `text-secondary-content`, `border-accent`, etc.
-5. Use font utilities: `font-sans`, `font-serif`, `font-mono`.
-
-No additional configuration files are required. The theme is self-contained in the CSS import.
+1. Install: `pnpm add @xianii/design-system`
+2. Default: `@import "@xianii/design-system";` and use `var(--color-*)` / `data-theme`
+3. Only add Tailwind/daisyUI adapters if the host project already uses those tools
+4. Do not assume Svelte or daisyUI component classes exist — this package ships tokens, not components
 
 ## License
 
