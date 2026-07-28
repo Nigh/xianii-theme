@@ -81,6 +81,10 @@ Or the convenience entry (daisyUI themes + Tailwind `@theme`):
 
 ## Theme tokens
 
+![Xianii theme preview](./docs/preview.svg)
+
+Themes: `data-theme="xianii"` (dark, default) and `data-theme="xianii-light"`.
+
 | Token | Usage |
 |-------|-------|
 | `--color-primary` | Primary actions, links |
@@ -92,9 +96,13 @@ Or the convenience entry (daisyUI themes + Tailwind `@theme`):
 | `--color-*-content` | Foreground on each role color |
 | `--color-info` / `success` / `warning` / `error` | Status |
 | `--font-sans` / `serif` / `mono` | Typography |
-| `--radius-selector` / `field` / `box` | Radii |
+| `--radius-selector` / `field` / `box` | Radii (button / input / card) |
 
-Themes: `data-theme="xianii"` (dark, default) and `data-theme="xianii-light"`.
+After changing `tokens.css`, regenerate the preview locally (not CI):
+
+```bash
+pnpm generate:preview
+```
 
 ## For AI Agents
 

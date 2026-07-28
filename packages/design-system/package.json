@@ -14,9 +14,13 @@
     "tokens.css",
     "theme.css",
     "adapters",
+    "docs/preview.svg",
     "README.md",
     "CHANGELOG.md"
   ],
+  "scripts": {
+    "generate:preview": "node ./scripts/generate-preview.mjs"
+  },
   "keywords": [
     "theme",
     "design-tokens",
