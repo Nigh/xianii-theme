@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "pnpm --filter @xianii/demo-page dev",
     "build": "pnpm --filter @xianii/demo-page build",
-    "preview": "pnpm --filter @xianii/demo-page preview"
+    "preview": "pnpm --filter @xianii/demo-page preview",
+    "generate:preview": "node packages/design-system/scripts/generate-preview.mjs"
   },
   "packageManager": "pnpm@11.5.2",
   "engines": {

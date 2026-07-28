@@ -21,6 +21,8 @@ apps/demo-page/           demo site (Svelte 5 + daisyUI, deployed to GitHub Page
 | `adapters/tailwind.css` | Optional Tailwind `@theme` bridge |
 | `adapters/daisyui.css` | Optional daisyUI theme plugin |
 | `theme.css` | Convenience import of both adapters |
+| `docs/preview.svg` | README palette preview (generated) |
+| `scripts/generate-preview.mjs` | Regenerates `docs/preview.svg` from `tokens.css` |
 
 Do not add framework components to the publishable package. Keep demo-only deps in `apps/demo-page`.
 
@@ -105,3 +107,4 @@ BREAKING CHANGE: --color-primary renamed to --color-brand
 - The workflow is at `.github/workflows/release.yml`.
 - Treat `@xianii/design-system` as tokens-first; do not couple the package to Svelte or require daisyUI for the default export.
 - When editing theme colors, keep `tokens.css` and `adapters/daisyui.css` in sync.
+- After changing `tokens.css` (colors or radii), run `pnpm generate:preview` locally and commit the updated `docs/preview.svg`. Do not add this to CI.

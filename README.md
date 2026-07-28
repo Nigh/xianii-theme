@@ -1,6 +1,14 @@
 # Xianii Theme
 
-Monorepo for **@xianii/design-system** — framework-agnostic CSS theme tokens, plus a Svelte demo that showcases them with daisyUI.
+Monorepo for **[@xianii/design-system](./packages/design-system/README.md)** — framework-agnostic CSS theme tokens, plus a Svelte demo that showcases them with daisyUI.
+
+**Package docs:** [`packages/design-system/README.md`](./packages/design-system/README.md) — install, CSS / Tailwind / daisyUI usage, token reference.
+
+## Theme tokens
+
+![Xianii theme preview](./packages/design-system/docs/preview.svg)
+
+Dark (`xianii`) and light (`xianii-light`): palette swatches, plus control shapes for `--radius-selector` (button), `--radius-field` (input), and `--radius-box` (card). Regenerated locally from `tokens.css` via `pnpm generate:preview`.
 
 ## Structure
 
@@ -10,7 +18,8 @@ Monorepo for **@xianii/design-system** — framework-agnostic CSS theme tokens, 
 │   ├── tokens.css             # Core CSS custom properties (default export)
 │   ├── adapters/              # Optional Tailwind / daisyUI bridges
 │   ├── theme.css              # Convenience: both adapters
-│   └── README.md
+│   ├── docs/preview.svg       # README palette preview (generated)
+│   └── README.md              # Consumer docs
 ├── apps/demo-page/            # Svelte 5 + daisyUI preview (not part of the package)
 └── .github/workflows/         # CI/CD (Pages + release)
 ```
@@ -25,7 +34,7 @@ pnpm build
 
 ## Using the theme
 
-See [`packages/design-system/README.md`](./packages/design-system/README.md).
+Full guide: [`packages/design-system/README.md`](./packages/design-system/README.md).
 
 Default consumer path is plain CSS variables — no Tailwind or daisyUI required.
 
