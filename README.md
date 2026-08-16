@@ -48,4 +48,4 @@ Default consumer path is plain CSS variables — no Tailwind or daisyUI required
 
 ## License
 
-MIT
+[MIT](./LICENSE)

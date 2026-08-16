@@ -113,4 +113,4 @@ pnpm generate:preview
 
 ## License
 
-MIT
+[MIT](./LICENSE)
