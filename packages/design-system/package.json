@@ -16,7 +16,8 @@
     "adapters",
     "docs/preview.svg",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "scripts": {
     "generate:preview": "node ./scripts/generate-preview.mjs"
