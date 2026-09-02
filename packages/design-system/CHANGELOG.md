@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/Nigh/xianii-theme/compare/v2.0.0...v2.1.0) (2026-09-02)
+
+
+### Features
+
+* add title image and update README structure ([707f2ed](https://github.com/Nigh/xianii-theme/commit/707f2ed50cd6781b23eb3063e0b0888fcf07dcf7))
+
 # [2.0.0](https://github.com/Nigh/xianii-theme/compare/v1.1.0...v2.0.0) (2026-07-27)
 
 
