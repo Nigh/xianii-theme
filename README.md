@@ -1,4 +1,5 @@
-# Xianii Theme
+
+![](title.webp)
 
 Monorepo for **[@xianii/design-system](./packages/design-system/README.md)** — framework-agnostic CSS theme tokens, plus a Svelte demo that showcases them with daisyUI.
 
