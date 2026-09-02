@@ -3,3 +3,4 @@ dist
 .svelte-kit
 *.local
 .DS_Store
+graphify-out
