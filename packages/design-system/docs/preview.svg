@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="300" viewBox="0 0 980 300" role="img" aria-label="Xianii theme palette preview">
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="450" viewBox="0 0 980 450" role="img" aria-label="Xianii theme palette preview">
   <title>Xianii theme preview</title>
-  <rect width="980" height="300" fill="#0a0a0a"/>
+  <rect width="980" height="450" fill="#0a0a0a"/>
   <text x="16" y="22" fill="#eee" font-size="13" font-weight="700" font-family="ui-sans-serif,system-ui,sans-serif">@xianii/design-system</text>
   <text x="200" y="22" fill="#777" font-size="11" font-family="ui-sans-serif,system-ui,sans-serif">palette · controls · radius (from tokens.css)</text>
 
@@ -87,5 +87,19 @@
     <rect x="308" y="148" width="120" height="8" rx="2" fill="#d4d4d4"/>
     <rect x="308" y="162" width="96" height="8" rx="2" fill="#d4d4d4"/>
     <text x="296" y="206" fill="#16161699" font-size="10" font-family="ui-monospace,monospace">box 0.5rem</text>
+  </g>
+<g transform="translate(16,282)">
+    <text x="0" y="0" fill="#eee" font-size="14" font-weight="700" font-family="ui-sans-serif,system-ui,sans-serif">Typography scale</text>
+    <text x="0" y="22" fill="#999" font-size="11" font-family="ui-sans-serif,system-ui,sans-serif">rem-based · browser default preserved · xs is the 12px floor</text>
+    <text x="0" y="58" fill="#eee" font-size="12" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="0" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">xs · 0.75rem</text>
+    <text x="94" y="58" fill="#eee" font-size="14" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="94" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">sm · 0.875rem</text>
+    <text x="188" y="58" fill="#eee" font-size="16" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="188" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">base · 1rem</text>
+    <text x="282" y="58" fill="#eee" font-size="18" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="282" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">lg · 1.125rem</text>
+    <text x="376" y="58" fill="#eee" font-size="20" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="376" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">xl · 1.25rem</text>
+    <text x="470" y="58" fill="#eee" font-size="24" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="470" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">2xl · 1.5rem</text>
+    <text x="564" y="58" fill="#eee" font-size="30" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="564" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">3xl · 1.875rem</text>
+    <text x="658" y="58" fill="#eee" font-size="36" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="658" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">4xl · 2.25rem</text>
+    <text x="752" y="58" fill="#eee" font-size="38" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="752" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">5xl · 3rem</text>
+    <text x="846" y="58" fill="#eee" font-size="38" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="846" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">6xl · 3.75rem</text>
   </g>
 </svg>

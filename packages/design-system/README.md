@@ -98,6 +98,52 @@ Themes: `data-theme="xianii"` (dark, default) and `data-theme="xianii-light"`.
 | `--font-sans` / `serif` / `mono` | Typography |
 | `--radius-selector` / `field` / `box` | Radii (button / input / card) |
 
+## Typography
+
+Typography is a public, framework-agnostic contract. `1rem` means the browser default (normally 16px); Xianii never changes the root font size, so browser font preferences and zoom continue to work. Use an existing token before introducing a new size. Deviate only for a documented design need.
+
+### Font size scale
+
+| Token | Size (16px default) | Recommended use |
+|-------|---------------------|-----------------|
+| `--font-size-xs` | `0.75rem` (12px) | Metadata, timestamps, badges; never body copy |
+| `--font-size-sm` | `0.875rem` (14px) | Compact UI, tables, sidebars, buttons, inputs |
+| `--font-size-base` | `1rem` (16px) | Default body and primary form content |
+| `--font-size-lg` | `1.125rem` (18px) | Lead or emphasized body text |
+| `--font-size-xl` | `1.25rem` (20px) | Small headings |
+| `--font-size-2xl` | `1.5rem` (24px) | Section headings |
+| `--font-size-3xl` | `1.875rem` (30px) | Page subsections |
+| `--font-size-4xl` | `2.25rem` (36px) | Page headings |
+| `--font-size-5xl` | `3rem` (48px) | Display and hero text |
+| `--font-size-6xl` | `3.75rem` (60px) | Large display, used sparingly |
+
+Body defaults to `1rem` for comfortable Chinese and English reading. `0.875rem` is the compact UI workhorse, not a body default. `0.75rem` is the minimum standard size and is reserved for supporting information.
+
+Semantic size aliases reference the primitive scale: `--font-size-body`, `--font-size-body-small`, `--font-size-ui`, `--font-size-metadata`, `--font-size-heading-small`, and `--font-size-heading`. `--font-size-display` is the only fluid token, scaling with `clamp()` from `4xl` to `6xl`; body and UI sizes stay stable.
+
+### Line height and weight
+
+| Tokens | Values |
+|--------|--------|
+| `--line-height-tight` / `snug` / `normal` / `relaxed` / `loose` | `1.15` / `1.3` / `1.5` / `1.65` / `1.75` |
+| `--font-weight-normal` / `medium` / `semibold` / `bold` | `400` / `500` / `600` / `700` |
+
+Use tight or snug leading for headings, normal for UI, relaxed for body copy, and loose for long Chinese text. Keep long-form reading near `60–70ch` (roughly `50–75ch` is acceptable); this is a usage guideline, not a layout token.
+
+**Visual hierarchy must not rely on font size alone.** Combine size with weight, line height, muted foreground colors, and spacing. Avoid shrinking every successive level into an `18 → 16 → 14 → 12 → 10px` ladder.
+
+### Tailwind CSS v4
+
+The optional adapter maps the core tokens to `text-xs` through `text-6xl`, `leading-tight` through `leading-loose`, and `font-normal`, `font-medium`, `font-semibold`, and `font-bold`. Values remain sourced from `tokens.css`:
+
+```html
+<article class="text-base leading-relaxed">Readable body copy</article>
+<button class="text-sm font-medium">Compact action</button>
+<time class="text-xs text-base-content/60">2 min ago</time>
+```
+
+No daisyUI typography overrides are added; component sizing remains daisyUI’s responsibility.
+
 After changing `tokens.css`, regenerate the preview locally (not CI):
 
 ```bash

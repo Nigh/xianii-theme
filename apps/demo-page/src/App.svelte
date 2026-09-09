@@ -15,6 +15,19 @@
     { name: "Neutral", value: "" },
   ]);
 
+  const typeScale = [
+    ["xs", "0.75rem", "12px", "Metadata, timestamps, badges"],
+    ["sm", "0.875rem", "14px", "Compact UI, tables, controls"],
+    ["base", "1rem", "16px", "Default body and form content"],
+    ["lg", "1.125rem", "18px", "Lead and emphasized body"],
+    ["xl", "1.25rem", "20px", "Small headings"],
+    ["2xl", "1.5rem", "24px", "Section headings"],
+    ["3xl", "1.875rem", "30px", "Page subsections"],
+    ["4xl", "2.25rem", "36px", "Page headings"],
+    ["5xl", "3rem", "48px", "Display and hero"],
+    ["6xl", "3.75rem", "60px", "Large display, sparingly"],
+  ];
+
   function readSwatches() {
     const style = getComputedStyle(document.documentElement);
     swatches = swatches.map((s) => ({
@@ -214,7 +227,7 @@
                 <div class="flex-1 rounded-t bg-gradient-to-t from-primary to-primary/35 transition-[height] duration-1000 ease-in-out" style="height: {h}%"></div>
               {/each}
             </div>
-            <div class="flex justify-between text-[10px] text-base-content/40 pt-1 font-mono">
+            <div class="flex justify-between text-xs text-base-content/40 pt-1 font-mono">
               <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
             </div>
           </div>
@@ -334,73 +347,69 @@
     <!-- ═══════════════════ TYPOGRAPHY ═══════════════════ -->
     <section id="typography">
       <h2 class="text-3xl font-bold mb-2">Typography</h2>
-      <p class="text-base-content/60 mb-6">Font families defined in <code class="kbd kbd-sm">@theme</code>.</p>
+      <p class="text-base text-base-content/60 mb-6">A finite, rem-based scale from the core package. Browser defaults remain intact.</p>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
-          <div class="card-body space-y-4">
-            <h3 class="card-title">Sans-Serif — Inter</h3>
-            <p class="font-sans text-4xl font-light">Light 300</p>
-            <p class="font-sans text-3xl font-normal">Regular 400</p>
-            <p class="font-sans text-2xl font-medium">Medium 500</p>
-            <p class="font-sans text-xl font-semibold">Semibold 600</p>
-            <p class="font-sans text-lg font-bold">Bold 700</p>
-            <p class="font-sans font-extrabold">ExtraBold 800</p>
-          </div>
-        </div>
-        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
-          <div class="card-body space-y-4">
-            <h3 class="card-title">Serif — Noto Serif</h3>
-            <p class="font-serif text-3xl">The quick brown fox jumps over the lazy dog.</p>
-            <p class="font-serif text-xl">Body text in serif for long-form reading, articles, and editorial content.</p>
-            <div class="divider"></div>
-            <p class="font-serif text-3xl">敏捷的棕色狐狸跳过了懒狗。</p>
-            <p class="font-serif text-xl">使用衬线字体进行长文阅读、文章和社论内容的排版。</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card bg-base-100 border border-base-300/60 shadow-sm mt-6">
-        <div class="card-body">
-          <h3 class="card-title">Monospace — JetBrains Mono</h3>
-          <pre class="bg-base-200 rounded-field p-4 text-sm font-mono overflow-x-auto"><code>import "@xianii/design-system/theme.css";
-
-@theme &#123;
-  --color-primary: oklch(81% 0.117 11.638);
-  --font-sans: "Inter", sans-serif;
-&#125;</code></pre>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
-          <p class="text-6xl font-extrabold text-primary">Aa</p>
-          <p class="text-sm text-base-content/50 mt-2">Display</p>
-        </div>
-        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
-          <p class="text-4xl font-bold">H1</p>
-          <p class="text-sm text-base-content/50">3rem / 48px</p>
-        </div>
-        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
-          <p class="text-2xl font-semibold">H2</p>
-          <p class="text-sm text-base-content/50">1.5rem / 24px</p>
-        </div>
-        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm text-center">
-          <p class="text-lg font-medium">H3</p>
-          <p class="text-sm text-base-content/50">1.125rem / 18px</p>
+      <div class="card bg-base-100 border border-base-300/60 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="table">
+            <thead><tr><th>Token</th><th>Size</th><th>Sample</th><th>Recommended use</th></tr></thead>
+            <tbody>
+              {#each typeScale as [name, rem, px, usage]}
+                <tr>
+                  <td class="font-mono text-xs">--font-size-{name}</td>
+                  <td class="text-sm whitespace-nowrap">{rem} / {px}</td>
+                  <td><span style="font-size: var(--font-size-{name}); line-height: var(--line-height-snug)">Xianii 字体 Aa 0123</span></td>
+                  <td class="text-sm text-base-content/60">{usage}</td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm">
-          <p class="text-sm text-base-content/50 mb-3 font-medium">English</p>
-          <p class="font-sans text-2xl leading-relaxed">Design is not just what it looks like and feels like. Design is how it works.</p>
-          <p class="text-xs text-base-content/40 mt-3">— Steve Jobs</p>
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
+          <div class="card-body">
+            <h3 class="card-title">Text hierarchy</h3>
+            <p style="font-size: var(--font-size-display); line-height: var(--line-height-tight)" class="font-bold text-primary">Display</p>
+            <p class="text-4xl font-bold">Page heading</p>
+            <p class="text-2xl font-semibold">Section heading</p>
+            <p class="text-base leading-relaxed">Body / 中文正文 uses the readable default.</p>
+            <p class="text-sm font-medium">UI text · Save changes</p>
+            <p class="text-sm text-base-content/60">Secondary text uses color, not another size.</p>
+            <p class="text-xs text-base-content/50">Metadata · Updated 2026-09-09 14:32</p>
+          </div>
         </div>
-        <div class="bg-base-100 rounded-box p-6 border border-base-300/60 shadow-sm">
-          <p class="text-sm text-base-content/50 mb-3 font-medium">中文</p>
-          <p class="font-sans text-2xl leading-relaxed">道生一，一生二，二生三，三生万物。人法地，地法天，天法道，道法自然。</p>
-          <p class="text-xs text-base-content/40 mt-3">— 老子《道德经》</p>
+        <div class="card bg-base-100 border border-base-300/60 shadow-sm">
+          <div class="card-body">
+            <h3 class="card-title">Compact UI</h3>
+            <div class="overflow-x-auto">
+              <table class="table table-sm text-sm">
+                <thead><tr><th>Project</th><th>Status</th><th>Updated</th></tr></thead>
+                <tbody><tr><td class="font-medium">xianii-theme</td><td><span class="badge badge-success badge-sm">Ready</span></td><td class="text-xs text-base-content/50">2 min ago</td></tr></tbody>
+              </table>
+            </div>
+            <button class="btn btn-primary btn-sm self-start">Compact action</button>
+            <p class="text-xs text-base-content/50">12px is reserved for metadata, never continuous reading.</p>
+          </div>
+        </div>
+      </div>
+
+      <article class="card bg-base-100 border border-base-300/60 shadow-sm mt-6">
+        <div class="card-body max-w-[65ch]">
+          <p class="text-xs uppercase tracking-wider text-base-content/50">Long-form reading · 65ch</p>
+          <h3 class="text-xl font-semibold">Readable by default</h3>
+          <p class="text-base leading-loose">好的排版不需要牺牲可读性来显得“精致”。Xianii 使用浏览器默认的 <code class="font-mono text-sm">1rem</code> 作为正文基准，让用户设置与页面缩放自然生效。Typography should support mixed Chinese and English, numbers such as 16 and 1.75, and <code class="font-mono text-sm">inline code</code> without disrupting the reading rhythm.</p>
+          <p class="text-base leading-loose">视觉层级不应只依赖 font-size；字重、行高、颜色和间距共同表达信息优先级。</p>
+        </div>
+      </article>
+
+      <div class="card bg-base-100 border border-base-300/60 shadow-sm mt-6">
+        <div class="card-body">
+          <h3 class="card-title">Families, weights, and leading</h3>
+          <p class="font-serif text-xl leading-relaxed">衬线字体适合 editorial reading — 正文仍使用既有字号。</p>
+          <p class="font-mono text-sm leading-normal">font-mono · normal 400 · medium 500 · semibold 600 · bold 700</p>
+          <p class="text-sm text-base-content/60">leading-tight · snug · normal · relaxed · loose</p>
         </div>
       </div>
     </section>
