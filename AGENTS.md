@@ -108,3 +108,4 @@ BREAKING CHANGE: --color-primary renamed to --color-brand
 - Treat `@xianii/design-system` as tokens-first; do not couple the package to Svelte or require daisyUI for the default export.
 - When editing theme colors, keep `tokens.css` and `adapters/daisyui.css` in sync.
 - After changing `tokens.css` (colors or radii), run `pnpm generate:preview` locally and commit the updated `docs/preview.svg`. Do not add this to CI.
+- Use the typography scale instead of arbitrary font sizes: `base` for body, `sm` for compact UI, and `xs` only for metadata. Do not use text below 12px; build hierarchy with weight, color, and spacing as well as size.

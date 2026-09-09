@@ -158,6 +158,20 @@ function panel(vars, title, x, y, w, h) {
   </g>`;
 }
 
+function typography(vars) {
+	const names = ["xs", "sm", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl"];
+	const samples = names.map((name, i) => {
+		const x = i * 94;
+		const value = vars[`font-size-${name}`];
+		return `<text x="${x}" y="58" fill="#eee" font-size="${Math.min(remPx(value), 38)}" font-family="ui-sans-serif,system-ui,sans-serif">Aa</text><text x="${x}" y="82" fill="#999" font-size="10" font-family="ui-monospace,monospace">${name} · ${value}</text>`;
+	}).join("\n    ");
+	return `<g transform="translate(16,282)">
+    <text x="0" y="0" fill="#eee" font-size="14" font-weight="700" font-family="ui-sans-serif,system-ui,sans-serif">Typography scale</text>
+    <text x="0" y="22" fill="#999" font-size="11" font-family="ui-sans-serif,system-ui,sans-serif">rem-based · browser default preserved · xs is the 12px floor</text>
+    ${samples}
+  </g>`;
+}
+
 const darkVars = parseTheme("xianii");
 const lightVars = parseTheme("xianii-light");
 for (const k of ["radius-selector", "radius-field", "radius-box"]) {
@@ -165,7 +179,7 @@ for (const k of ["radius-selector", "radius-field", "radius-box"]) {
 }
 
 const W = 980;
-const H = 300;
+const H = 450;
 const panelW = 464;
 const panelH = 220;
 
@@ -177,6 +191,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <text x="200" y="22" fill="#777" font-size="11" font-family="ui-sans-serif,system-ui,sans-serif">palette · controls · radius (from tokens.css)</text>
 ${panel(darkVars, "xianii (dark)", 16, 36, panelW, panelH)}
 ${panel(lightVars, "xianii-light", 500, 36, panelW, panelH)}
+${typography(darkVars)}
 </svg>
 `;
 
@@ -191,6 +206,8 @@ ${panel(lightVars, "xianii-light", 500, 36, panelW, panelH)}
 	assert(toHex("#44403c") === "#44403c", "passthrough hex");
 	assert(remPx("0.5rem") === 8, "rem→px");
 	assert(svg.includes(toHex(darkVars["color-primary"])), "svg embeds primary");
+	assert(darkVars["font-size-base"] === "1rem", "base font size");
+	assert(svg.includes("6xl · 3.75rem"), "svg embeds typography");
 }
 
 mkdirSync(outDir, { recursive: true });
