@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/Nigh/xianii-theme/compare/v2.1.0...v2.2.0) (2026-09-09)
+
+
+### Features
+
+* **typography:** add type scale tokens ([45b5843](https://github.com/Nigh/xianii-theme/commit/45b584356b238b78a11191ef0e768e5a1f7ba359))
+
 # [2.1.0](https://github.com/Nigh/xianii-theme/compare/v2.0.0...v2.1.0) (2026-09-02)
 
 
