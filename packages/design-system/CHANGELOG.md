@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/Nigh/xianii-theme/compare/v2.2.0...v2.3.0) (2026-09-14)
+
+
+### Features
+
+* **demo:** refocus page on design tokens ([0076c26](https://github.com/Nigh/xianii-theme/commit/0076c2688e2c9c1bb9c01e5e6de85bcf5b3e19a1))
+
 # [2.2.0](https://github.com/Nigh/xianii-theme/compare/v2.1.0...v2.2.0) (2026-09-09)
 
 
