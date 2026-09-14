@@ -1,3 +1,35 @@
 @import "tailwindcss";
 @plugin "daisyui";
 @import "@xianii/design-system/theme.css";
+
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+::selection { background: var(--color-primary); color: var(--color-primary-content); }
+:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
+
+.skip-link {
+	position: fixed;
+	inset-block-start: 0.75rem;
+	inset-inline-start: 0.75rem;
+	z-index: 100;
+	transform: translateY(-200%);
+	border-radius: var(--radius-field);
+	background: var(--color-primary);
+	color: var(--color-primary-content);
+	padding: 0.75rem 1rem;
+	font-weight: 600;
+}
+.skip-link:focus { transform: translateY(0); }
+.section-heading { max-width: 46rem; }
+.section-heading h2 { font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); }
+.section-heading p { margin-top: 0.75rem; color: color-mix(in oklch, var(--color-base-content) 72%, transparent); font-size: var(--font-size-lg); line-height: var(--line-height-relaxed); }
+.theme-preview { box-shadow: 0 1.5rem 4rem color-mix(in oklch, var(--color-primary) 14%, transparent); }
+.code-block { min-width: 0; overflow: hidden; border-radius: var(--radius-box); background: var(--color-base-100); }
+.code-bar { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--color-base-300); padding: 0.65rem 1rem; color: color-mix(in oklch, var(--color-base-content) 68%, transparent); font-size: var(--font-size-sm); }
+.code-bar button { min-height: 2.75rem; padding-inline: 0.75rem; color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+.code-block pre { overflow-x: auto; padding: 1.25rem; font-size: var(--font-size-sm); line-height: var(--line-height-relaxed); }
+
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
