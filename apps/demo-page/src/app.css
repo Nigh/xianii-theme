@@ -5,7 +5,7 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; }
 ::selection { background: var(--color-primary); color: var(--color-primary-content); }
-:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
 
 .skip-link {
 	position: fixed;

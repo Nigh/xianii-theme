@@ -68,6 +68,17 @@ function toHex(value) {
 	return `#${byte(r)}${byte(g)}${byte(bl)}`;
 }
 
+function contrast(a, b) {
+	const luminance = (value) => {
+		const hex = toHex(value);
+		const channels = [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255)
+			.map((v) => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+		return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+	};
+	const [lighter, darker] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+	return (lighter + 0.05) / (darker + 0.05);
+}
+
 function remPx(value, fallback = 8) {
 	const m = String(value).match(/([\d.]+)rem/);
 	if (m) return Number(m[1]) * 16;
@@ -208,6 +219,14 @@ ${typography(darkVars)}
 	assert(svg.includes(toHex(darkVars["color-primary"])), "svg embeds primary");
 	assert(darkVars["font-size-base"] === "1rem", "base font size");
 	assert(svg.includes("6xl · 3.75rem"), "svg embeds typography");
+	for (const vars of [darkVars, lightVars]) {
+		for (const role of ["primary", "secondary", "accent", "neutral", "info", "success", "warning", "error"]) {
+			assert(contrast(vars[`color-${role}`], vars[`color-${role}-content`]) >= 4.5, `${role} contrast`);
+		}
+	}
+	for (const token of ["color-text-muted", "color-interactive-hover", "color-interactive-active", "color-focus", "color-overlay", "space-field-label", "space-field-help"]) {
+		assert(darkVars[token], `missing ${token}`);
+	}
 }
 
 mkdirSync(outDir, { recursive: true });
