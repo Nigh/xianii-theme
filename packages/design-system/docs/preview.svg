@@ -69,7 +69,7 @@
     <text x="306" y="94" text-anchor="middle" fill="#16161699" font-size="8" font-family="ui-sans-serif,system-ui,sans-serif">info</text>
     <rect x="328" y="48" width="34" height="34" rx="6" fill="#337344" stroke="#d4d4d4" stroke-width="1"/>
     <text x="345" y="94" text-anchor="middle" fill="#16161699" font-size="8" font-family="ui-sans-serif,system-ui,sans-serif">success</text>
-    <rect x="367" y="48" width="34" height="34" rx="6" fill="#a07100" stroke="#d4d4d4" stroke-width="1"/>
+    <rect x="367" y="48" width="34" height="34" rx="6" fill="#966800" stroke="#d4d4d4" stroke-width="1"/>
     <text x="384" y="94" text-anchor="middle" fill="#16161699" font-size="8" font-family="ui-sans-serif,system-ui,sans-serif">warning</text>
     <rect x="406" y="48" width="34" height="34" rx="6" fill="#b71824" stroke="#d4d4d4" stroke-width="1"/>
     <text x="423" y="94" text-anchor="middle" fill="#16161699" font-size="8" font-family="ui-sans-serif,system-ui,sans-serif">error</text>

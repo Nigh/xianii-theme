@@ -173,8 +173,8 @@
             <h3 class="text-xl font-semibold">Actions and fields</h3>
             <div class="mt-5 flex flex-wrap gap-3"><button class="btn btn-primary">Primary</button><button class="btn btn-secondary">Secondary</button><button class="btn btn-outline">Outline</button><button class="btn" disabled>Disabled</button></div>
             <div class="mt-6 grid gap-4 sm:grid-cols-2">
-              <label class="form-control"><span class="label"><span class="label-text">Email address</span></span><input class="input input-bordered w-full" type="email" placeholder="you@example.com" /></label>
-              <label class="form-control"><span class="label"><span class="label-text">Framework</span></span><select class="select select-bordered w-full"><option>None</option><option>Tailwind CSS</option><option>daisyUI</option></select></label>
+              <label class="form-control gap-field-label"><span class="label"><span class="label-text">Email address</span></span><input class="input input-bordered w-full" type="email" placeholder="you@example.com" /></label>
+              <label class="form-control gap-field-label"><span class="label"><span class="label-text">Framework</span></span><select class="select select-bordered w-full"><option>None</option><option>Tailwind CSS</option><option>daisyUI</option></select></label>
             </div>
           </div>
           <div class="space-y-3" aria-label="Feedback specimens">

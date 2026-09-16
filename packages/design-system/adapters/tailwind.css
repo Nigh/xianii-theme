@@ -57,10 +57,17 @@
 	--color-warning-content: var(--color-warning-content);
 	--color-error: var(--color-error);
 	--color-error-content: var(--color-error-content);
+	--color-text-muted: var(--color-text-muted);
+	--color-interactive-hover: var(--color-interactive-hover);
+	--color-interactive-active: var(--color-interactive-active);
+	--color-focus: var(--color-focus);
+	--color-overlay: var(--color-overlay);
 
 	--radius-selector: var(--radius-selector);
 	--radius-field: var(--radius-field);
 	--radius-box: var(--radius-box);
+	--spacing-field-label: var(--space-field-label);
+	--spacing-field-help: var(--space-field-help);
 
 	--animate-float: float 6s ease-in-out infinite;
 }

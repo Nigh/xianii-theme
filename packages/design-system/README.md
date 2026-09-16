@@ -95,8 +95,81 @@ Themes: `data-theme="xianii"` (dark, default) and `data-theme="xianii-light"`.
 | `--color-base-content` | Default text on base |
 | `--color-*-content` | Foreground on each role color |
 | `--color-info` / `success` / `warning` / `error` | Status |
+| `--color-text-muted` | Secondary text on base surfaces |
+| `--color-interactive-hover` / `active` | Interactive surface states |
+| `--color-focus` | Keyboard focus indicator |
+| `--color-overlay` | Backdrop behind dialogs and overlays |
 | `--font-sans` / `serif` / `mono` | Typography |
 | `--radius-selector` / `field` / `box` | Radii (button / input / card) |
+| `--space-field-label` / `field-help` | Form label and supporting-text gaps |
+
+## UI implementation constraints
+
+The package does not ship components, but consumers should preserve these interaction rules so the theme remains usable and visually consistent.
+
+### Dialogs
+
+Do not use `alert()`, `confirm()`, or `prompt()` in user-facing flows. Use the host project's existing modal component, or native `<dialog>` when no component library is present. Dialogs need a labelled title, an explicit cancel path, keyboard focus management, and a visible focus indicator. Use `--color-overlay` for the backdrop, and communicate destructive actions with text as well as color.
+
+```html
+<dialog aria-labelledby="delete-title">
+  <form method="dialog" aria-labelledby="delete-title">
+    <h2 id="delete-title">Delete project?</h2>
+    <p>This action cannot be undone.</p>
+    <button value="cancel">Cancel</button>
+    <button value="confirm">Delete</button>
+  </form>
+</dialog>
+```
+
+### Tabs
+
+Selected tabs must use at least two visual signals, such as weight plus an indicator. Hover must be visible but quieter than the selected state; keyboard focus must remain independently visible. Implement `tablist` / `tab` roles, `aria-selected`, panel relationships, and arrow-key navigation in the host component.
+
+```css
+.tab {
+  color: var(--color-text-muted);
+}
+
+.tab:hover {
+  background: var(--color-interactive-hover);
+  color: var(--color-base-content);
+}
+
+.tab[aria-selected="true"] {
+  border-block-end: 2px solid var(--color-primary);
+  background: var(--color-interactive-active);
+  color: var(--color-base-content);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tab:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+```
+
+### Form fields
+
+Group labels and controls structurally; do not create their spacing with text whitespace or control margins. Supporting and error text must stay attached to the same field, and space between fields should exceed the internal label-to-control gap.
+
+```html
+<label class="field">
+  <span>Email address</span>
+  <input type="email" />
+</label>
+```
+
+```css
+.field {
+  display: grid;
+  gap: var(--space-field-label);
+}
+
+.field-help {
+  margin-block-start: var(--space-field-help);
+}
+```
 
 ## Typography
 
@@ -156,6 +229,9 @@ pnpm generate:preview
 2. Default: `@import "@xianii/design-system";` and use `var(--color-*)` / `data-theme`
 3. Only add Tailwind/daisyUI adapters if the host project already uses those tools
 4. Do not assume Svelte or daisyUI component classes exist — this package ships tokens, not components
+5. Do not use browser alert dialogs in user-facing flows; use an existing modal or native `<dialog>`
+6. Give tabs distinct hover, selected, and focus-visible states; selected tabs need two visual signals
+7. Group each label with its control and use `--space-field-label` between them
 
 ## License
 
