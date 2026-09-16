@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/Nigh/xianii-theme/compare/v2.3.0...v2.4.0) (2026-09-16)
+
+
+### Features
+
+* **theme:** add interaction state constraints ([7a934a0](https://github.com/Nigh/xianii-theme/commit/7a934a0476ee26eef28b2838e968f5d2d62b22f5))
+
 # [2.3.0](https://github.com/Nigh/xianii-theme/compare/v2.2.0...v2.3.0) (2026-09-14)
 
 
